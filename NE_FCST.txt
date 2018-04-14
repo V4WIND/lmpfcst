@@ -1,0 +1,94 @@
+proc sql;
+reset INOBS=max OUTOBS=max LOOPS=MAX NOFLOW NOFEEDBACK NOPROMPT NONUMBER ;
+connect to teradata(database=p_bcd_v_i_consumer TDPID=edwprod user=%sysget(USER) password="&dbpass");
+create table fb.FORB_DATA_2002_2017 as select * from connection to teradata(
+
+select 
+ACCT_NBR,
+ARRANGE_START_DT,
+ARRANGE_TYPE_CD,
+ARRANGE_START_YR_NBR,
+ARRANGE_START_MO_NBR,
+(2000+1*ARRANGE_START_YR_NBR||1*ARRANGE_START_MO_NBR) as vintage,
+BALANCE_AMT,
+CREDIT_LMT_AMT,
+DELQ_BUCKET_NBR,
+PURCH_APR_RT,
+CASH_APR_RT,
+PID_ID,
+ARRANGE_END_DT,
+ARRANGE_DURATION_MO_NBR,
+CCG_OFFICE_CD,
+APR_PRIOR_PURCH_RT,
+APR_PRIOR_CASH_RT,
+CL_TID,
+PER_NUM,
+INSERT_DT,
+TRUE_BUCKET_LAST_CYCLE_NBR,
+TOTAL_DUE_AT_ENROLL_AMT,
+DELQ_IND,
+APA_REINS_IND
+
+from P_COLL_V_I_FRB_BCD.CL_ARRANGMNT_ACTIVITY_ALL
+where ARRANGE_START_YR_NBR ge 02 and ARRANGE_START_YR_NBR le 17 and ARRANGE_TYPE_CD IN('3','4','E','G','I','J','S','T')
+order by ARRANGE_TYPE_CD,PER_NUM
+);quit;
+
+
+
+%let dbpass = Teradata11;
+libname fb '/risk/coll/vv58876/AJ/';
+proc sql;
+reset INOBS=max OUTOBS=max LOOPS=MAX NOFLOW NOFEEDBACK NOPROMPT NONUMBER;
+connect to teradata(database=p_bcd_v_i_consumer TDPID=edwprod user=%sysget(USER) password="&DBPASS");
+create table data as select * from connection to teradata(
+
+select  
+
+C.ACCT_NBR,
+C.ARRANGE_START_DT,
+C.ARRANGE_TYPE_CD,
+C.ARRANGE_START_YR_NBR,
+C.ARRANGE_START_MO_NBR,
+C.BALANCE_AMT,
+C.CREDIT_LMT_AMT,
+C.DELQ_BUCKET_NBR,
+C.PURCH_APR_RT,
+C.CASH_APR_RT,
+C.PID_ID,
+C.ARRANGE_END_DT,
+C.ARRANGE_DURATION_MO_NBR,
+C.APR_PRIOR_PURCH_RT,
+C.APR_PRIOR_CASH_RT,
+C.CL_TID,
+C.PER_NUM,
+C.INSERT_DT,
+b.fico_score_val,
+pd.portf,pd.product,pd.sub_prod
+
+from P_COLL_V_I_FRB_BCD.CL_ARRANGMNT_ACTIVITY_ALL c
+
+left join p_bcd_v_i_consumer.cl_bill b
+on c.cl_tid = b.cl_tid
+
+left join p_tagdb_t.BRANDEDPIDS_20171213 pd
+on c.pid_id = pd.pid
+
+where c.ARRANGE_START_YR_NBR = 18 and c.ARRANGE_TYPE_CD IN('3')
+order by c.insert_dt
+
+);quit;
+
+
+DATA DATA_SEG;
+SET DATA;
+
+RUN;
+
+
+proc sql;
+create table seg as
+select ARRANGE_TYPE_CD,PURCH_APR_RT,DELQ_BUCKET_NBR,BAL_SEG,FICO_SEG,per_num,sum(balance_amt) as bal, count(*) as vol
+from DATA_SEG
+group by ARRANGE_TYPE_CD,PURCH_APR_RT,DELQ_BUCKET_NBR,BAL_SEG,FICO_SEG,per_num;
+quit;

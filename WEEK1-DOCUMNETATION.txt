@@ -1,0 +1,29 @@
+Hi Manish,
+
+As discussed in our previous call, we have started working on developing a better forecasting prospect (capturing seasonal effects and minimizing the error) and a better view for New inventory/Inventory of Loss Mitigation Treatment Programs.
+
+APPLICATION UTILITY  –
+Automating the whole process and converting it into a package will increase the scope of being pro-active to the upcoming shift in New Entrant (and thereby inventory) population volume, characteristic and performance features thus enhancing the decision making ability of the user.
+Bringing more ease  custom to the nature of client’s query to a list of views that could be made available to export giving us the capability to fetch a custom view of Loss Mitigation Programs. 
+
+PRESENT SCENARIO – 
+We had prepared forecasts only at Costco/ Non Costco split in our 2018 submissions to Siddhesh Kajarekar’s team. Ratio-Slope method is used on the naïve model (i.e. using only the latest month data).
+Recently we built an excel template at product level comprehending which was a hefty task for client. With this tool we can bring capability to our forecasts at product level/risk segment level/ demographics thereby easing the effort in synthesizing info very quickly.
+(Product centered alignment of Citi would call out the need for a tool with product level info)
+
+CHALLENGE –Developing the report manually monthly limits the scope of multi level segmentation view and also the timeframe sensitivity of forecast.
+A factor of seasonality isn’t captured and the error of the forecast with respect to the actuals is relatively high. Also scope of deeper segmentation like (product wise, balance wise, bucket wise, demographic wise etc.) is high.
+
+POSSIBLE SCENARIO – 
+The back-end algorithm should be developed using Holt-winter method (triple smoothening), we would subsequently try to evaluate other alternative methods like ARIMA.
+In our back testing of HW-Method the seasonal impacts were captured in a promising way and we observed a relatively low error than current estimates using Ratio-Slope Method.
+
+?	We have listed a few sample UI of the tool with 2 similar screens(HISTORICAL VIEW & PROJECTED VIEW).
+?	Preparing multiple forecasting techniques that will run at backend for screen 2 PROJECTIONS. 
+?	Adding a preferred plot custom to the nature of client’s query to a list of views that could be made available to export.
+?	Could be extensively used for sizing/estimation & performance mapping of a base population with custom characteristic features while building a new policy change brief or preparing support cases in a policy change review.
+?	Potential reach among collections stream Risk Management team by improving the variety of possible L1 L2 L3 fields e.g. MIS_QUEUE_INFO/LIFETIME_REAGE_CNT/LIFETIME_PAYDOWN_CNT/…more transformed info depending on the clients custom request)
+?	We would work towards reaching the above version of the tool by April 15th as our preliminary aim.
+
+Setting up some time on your calendar to discuss the back-end algorithm and then  various features and segmentations possible.
+Looking forward to iterate all the thoughts with you in our weekly connect.
