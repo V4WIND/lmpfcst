@@ -17,3 +17,10 @@ https://www.datacamp.com/community/tutorials/pipe-r-tutorial
 
 http://magrittr.tidyverse.org/
 http://r4ds.had.co.nz/
+
+
+https://cran.r-project.org/web/packages/data.table/data.table.pdf
+https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html
+https://www.listendata.com/2016/10/r-data-table.html
+https://www.dezyre.com/data-science-in-r-programming-tutorial/r-data-table-tutorial
+https://www.datacamp.com/courses/data-table-data-manipulation-r-tutorial
